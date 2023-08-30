@@ -131,3 +131,106 @@ def show_start_menu():
     pygame.display.update()
 
 show_start_menu()
+
+#main game loop
+waiting_for_start = True
+while waiting_for_start:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                waiting_for_start = False
+
+game_screen.fill((0, 0, 0))
+pygame.display.update()
+
+#Main game loop
+running = True
+while running:
+    game_screen.fill((0, 0, 0))
+    game_screen.blit(bg_image, (0, 0))
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT:
+                player_x_change = -5
+            if event.key == pygame.K_RIGHT:
+                player_x_change = 5
+            if event.key == pygame.K_SPACE:
+                if bullet_state == "ready":
+                    bullet_sound = mixer.Sound("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\shotsound.mp3")
+                    bullet_sound.play()
+                    bullet_x = player_x
+                    fire_bullet(bullet_x, bullet_y)
+
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                player_x_change = 0
+
+    player_x += player_x_change
+    if player_x <= 0:
+        player_x = 0
+    elif player_x >= 835:
+        player_x = 835
+
+    for i in range(num_of_enemies):
+        enemy_x_positions[i] += enemy_x_change[i]
+        if enemy_x_positions[i] <= 0:
+            enemy_x_change[i] = enemy_speed
+            enemy_y_positions[i] += enemy_y_change[i]
+        elif enemy_x_positions[i] >= 835:
+            enemy_x_change[i] = -enemy_speed
+            enemy_y_positions[i] += enemy_y_change[i]
+
+        enemy(enemy_x_positions[i], enemy_y_positions[i], i)
+
+        collision = is_collision(enemy_x_positions[i], enemy_y_positions[i], bullet_x, bullet_y)
+        if collision:
+            explosion_sound = mixer.Sound("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\explosion.mp3")
+            explosion_sound.play()
+            bullet_y = 480
+            bullet_state = "ready"
+            score_value += 1
+            enemy_x_positions[i] = random.randint(0, 835)
+            enemy_y_positions[i] = random.randint(50, 150)
+
+        player_collision = is_collision(enemy_x_positions[i], enemy_y_positions[i], player_x, player_y)
+        if player_collision:
+            game_over_text()
+            pygame.display.update()
+            pygame.time.delay(2000)  # Game pauses for 2 seconds before quitting
+            running = False
+            break
+
+        enemy(enemy_x_positions[i], enemy_y_positions[i], i)
+
+    if bullet_y <= 0:
+        bullet_y = 480
+        bullet_state = "ready"
+    if bullet_state == "fire":
+        fire_bullet(bullet_x, bullet_y)
+        bullet_y -= bullet_y_change
+
+    player(player_x, player_y)
+    show_score(text_x, text_y)
+
+    if score_value >= current_stage * 10:  # Increase level difficulty every 10 points
+        show_stage_transition(current_stage)
+        current_stage += 1
+        enemy_speed += 0.5  # toggle increase enemy speed
+
+        player_x = 410
+        player_y = 480
+        for i in range(num_of_enemies):
+            enemy_x_positions[i] = random.randint(0, 835)
+            enemy_x_positions[i] = random.randint(0, 835)
+            enemy_y_positions[i] = random.randint(50, 150)
+
+    pygame.display.update()
+
+pygame.quit()
