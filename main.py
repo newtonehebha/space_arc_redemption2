@@ -13,17 +13,17 @@ SCREEN_HEIGHT = 600
 game_screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # background development/images/sound
-bg_image = pygame.image.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\bg_space_seamless_1.png")
+bg_image = pygame.image.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\space_arc_redemption2\\bg_space_seamless_1.png")
 bg_image = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
-mixer.music.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\Backgroundsound2.mp3")
+mixer.music.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\space_arc_redemption2\\Backgroundsound2.mp3")
 mixer.music.play(-1)
 
 pygame.display.set_caption("Space Arc Redemption")
-game_icon = pygame.image.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\UFO.jpg")
+game_icon = pygame.image.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\space_arc_redemption2\\UFO.jpg")
 pygame.display.set_icon(game_icon)
 
-player_image = pygame.image.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\Player.png")
+player_image = pygame.image.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\space_arc_redemption2\\Player.png")
 player_x = 410
 player_y = 480
 player_x_change = 0
@@ -36,7 +36,7 @@ enemy_y_change = []
 num_of_enemies = 6
 
 for i in range(num_of_enemies):
-    enemy_img = pygame.image.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\enemy.png")
+    enemy_img = pygame.image.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\space_arc_redemption2\\enemy.png")
     enemy_img = pygame.transform.scale(enemy_img, (90, 90))  # Resized enemy image
     enemy_images.append(enemy_img)
     enemy_x_positions.append(random.randint(0, 835))
@@ -44,7 +44,7 @@ for i in range(num_of_enemies):
     enemy_x_change.append(4)
     enemy_y_change.append(40)
 
-bullet_image = pygame.image.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\redbullet.png")
+bullet_image = pygame.image.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\space_arc_redemption2\\redbullet.png")
 bullet_image = pygame.transform.scale(bullet_image, (20, 80))  # Resized bullet image
 bullet_x = 0
 bullet_y = 480
@@ -98,7 +98,7 @@ def show_stage_transition(stage):
     pygame.time.delay(2000)  # Game Pauses for 2 seconds before continuing
 
 def show_intro_screen():
-    intro_bg = pygame.image.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\introbg2.png")
+    intro_bg = pygame.image.load("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\space_arc_redemption2\\introbg2.png")
     intro_bg = pygame.transform.scale(intro_bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
     game_screen.blit(intro_bg, (0, 0))
 
@@ -163,7 +163,7 @@ while running:
                 player_x_change = 5
             if event.key == pygame.K_SPACE:
                 if bullet_state == "ready":
-                    bullet_sound = mixer.Sound("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\shotsound.mp3")
+                    bullet_sound = mixer.Sound("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\space_arc_redemption2\\shotsound.mp3")
                     bullet_sound.play()
                     bullet_x = player_x
                     fire_bullet(bullet_x, bullet_y)
@@ -191,7 +191,7 @@ while running:
 
         collision = is_collision(enemy_x_positions[i], enemy_y_positions[i], bullet_x, bullet_y)
         if collision:
-            explosion_sound = mixer.Sound("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\explosion.mp3")
+            explosion_sound = mixer.Sound("C:\\Users\\newto\\Desktop\\First github pull\\space_arc_redemption\\space_arc_redemption2\\explosion.mp3")
             explosion_sound.play()
             bullet_y = 480
             bullet_state = "ready"
